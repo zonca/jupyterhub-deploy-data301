@@ -8,6 +8,10 @@
   with_items: github_usernames
   when: github_usernames is defined and github_usernames != []
 
+- name: copy original authorized keys file
+  command: cp /root/.ssh/authorized_keys /tmp/pubkeys
+  # works only in ansible 2.0 copy: src=/root/.ssh/authorized_keys dest=/tmp/pubkeys/authorized_keys remote_src=True force=yes
+
 - name: assemble the authorized keys file
   assemble: dest=/root/.ssh/authorized_keys mode=0600 src=/tmp/pubkeys
   become: true
